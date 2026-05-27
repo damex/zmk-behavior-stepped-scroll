@@ -1,0 +1,13 @@
+# Copyright 2026 Roman Kuzmitskii (@damex)
+# SPDX-License-Identifier: MIT
+
+description: Emit one discrete relative scroll tick per binding press.
+
+compatible: "zmk,behavior-stepped-scroll"
+
+include: one_param.yaml
+
+properties:
+  input-code:
+    type: int
+    required: true
