@@ -22,8 +22,8 @@ static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event) {
     ARG_UNUSED(event);
     const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
-    const struct behavior_stepped_scroll_config *cfg = dev->config;
-    input_report_rel(dev, cfg->input_code, (int16_t)binding->param1, true, K_NO_WAIT);
+    const struct behavior_stepped_scroll_config *config = dev->config;
+    input_report_rel(dev, config->input_code, (int16_t)binding->param1, true, K_NO_WAIT);
     return ZMK_BEHAVIOR_OPAQUE;
 }
 
@@ -32,11 +32,13 @@ static const struct behavior_driver_api behavior_stepped_scroll_api = {
     .binding_pressed = on_keymap_binding_pressed,
 };
 
-#define STEPPED_SCROLL_INST(n)                                                                     \
-    static const struct behavior_stepped_scroll_config behavior_stepped_scroll_config_##n = {      \
-        .input_code = (uint16_t)DT_INST_PROP(n, input_code),                                       \
-    };                                                                                             \
-    BEHAVIOR_DT_INST_DEFINE(n, NULL, NULL, NULL, &behavior_stepped_scroll_config_##n,              \
+#define STEPPED_SCROLL_INST(instance)                                                              \
+    static const struct behavior_stepped_scroll_config                                             \
+        behavior_stepped_scroll_config_##instance = {                                              \
+            .input_code = (uint16_t)DT_INST_PROP(instance, input_code),                            \
+        };                                                                                         \
+    BEHAVIOR_DT_INST_DEFINE(instance, NULL, NULL, NULL,                                            \
+                            &behavior_stepped_scroll_config_##instance,                            \
                             POST_KERNEL, CONFIG_KERNEL_INIT_PRIORITY_DEFAULT,                      \
                             &behavior_stepped_scroll_api);
 
