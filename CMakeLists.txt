@@ -3,7 +3,7 @@
 
 if(CONFIG_DT_HAS_ZMK_BEHAVIOR_STEPPED_SCROLL_ENABLED AND
    (NOT CONFIG_ZMK_SPLIT OR CONFIG_ZMK_SPLIT_ROLE_CENTRAL))
-  zephyr_library()
+  zephyr_library_named(zmk_behavior_stepped_scroll)
   zephyr_library_compile_options(
       -Werror
       -Wextra
